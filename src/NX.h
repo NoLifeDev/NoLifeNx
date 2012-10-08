@@ -87,12 +87,16 @@ namespace NL {
         Node Base() const;
     private:
         struct Header;
-        const void * base;
         const Node::Data * ntable;
         const uint64_t * stable;
         const Header * head;
-        void * file;
+#ifdef _WIN32
         void * map;
+        void * file;
+#elif defined __linux__
+        void * base;
+        int file;
+#endif
         size_t size;
         friend Node;
         friend Sprite;
