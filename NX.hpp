@@ -17,6 +17,17 @@
 //////////////////////////////////////////////////////////////////////////////
 #include <string>
 #include <cstdint>
+
+#ifdef _WIN32
+#  define NL_WINDOWS
+#ifndef NOMINMAX
+#  define NOMINMAX
+#endif
+#define WIN32_LEAN_AND_MEAN
+#else
+#define NL_POSIX
+#endif
+
 namespace NL {
     class Bitmap;
     class Audio;
@@ -147,10 +158,10 @@ namespace NL {
         uint64_t const * btable;
         uint64_t const * atable;
         Header const * head;
-#ifdef _WIN32
+#ifdef NL_WINDOWS
         void * file;
         void * map;
-#elif defined __linux__
+#elif defined NL_POSIX
         int file;
         size_t size;
 #endif
